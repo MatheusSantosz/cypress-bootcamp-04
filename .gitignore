@@ -1,0 +1,12 @@
+# dependencias
+node_modules
+
+# cypress itens
+cypress/videos
+cypress/screenshots
+
+# others
+package-lock.json
+
+index.json
+© 2022 GitHub, Inc.
