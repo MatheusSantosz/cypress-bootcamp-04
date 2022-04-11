@@ -1,0 +1,40 @@
+name: Test automation API CI 
+#Gatilhos
+#Gatilhos programados -> ou acionados por eventos
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+  #Maquina ou abimiente
+    runs-on: ubuntu-latest
+
+    steps:
+    #download do codigo
+    - uses: actions/checkout@v2
+    #setup versao do node
+    - name: Use Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: 14.x
+        
+    - run: npm install
+    
+    - run: npm run test
+      continue-on-error: true
+      
+    - run: npm run report:merge
+    
+    - run: npm run report:mocha
+    
+    #Git Hub Pages -> publicar o relatorio
+    
+    - name: Deploy to GitHub Pages
+      uses: JamesIves/github-pages-deploy-action@v4.2.5
+      with: 
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BRANCH: gh-pages
+          FOLDER: mochawesome-report
